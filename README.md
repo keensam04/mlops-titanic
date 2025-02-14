@@ -45,6 +45,12 @@ Install argo workflow using the below instructions. Refer to the [installation s
    kubectl create namespace argo
    ```
    ```
+   kubectl -n argo create sa pipeline-runner
+   ```
+   ```
+   kubectl create clusterrolebinding pipelinerunnerbinding --clusterrole=cluster-admin --serviceaccount=argo:pipeline-runner
+   ```
+   ```
    kubectl apply -n argo -f "https://github.com/argoproj/argo-workflows/releases/download/${ARGO_WORKFLOWS_VERSION}/quick-start-minimal.yaml"
    ```
 3. Configure port forwarding to access the UI:
