@@ -13,7 +13,22 @@ Refer to the below screenshot for first-time configuration.
 - Use the `dockerd (moby)` container engine which comes with docker cli.
 - Opt for automatic path configuration
 <img width="408" alt="rancher_local_conf" src="https://github.com/user-attachments/assets/8f8fa3dc-be22-421d-92e1-31a2eef0d7c1" />
-   
+
+#### Validation
+Validate that the installation is successful by testing the following commands
+```
+docker --version
+```
+```
+docker-compose --version
+```
+```
+kubectl version
+```
+```
+dsl-compile --help
+```
+
 ### Argo Workflows
 Argo is an open-source project created by Intuit. It is a collection of open source tools for Kubernetes to run workflows, manage clusters, and do GitOps right. Learn more [here](https://argoproj.github.io/)
 
@@ -28,6 +43,8 @@ Install argo workflow using the below instructions. Refer to the [installation s
 2. Apply the quick start manifest
    ```
    kubectl create namespace argo
+   ```
+   ```
    kubectl apply -n argo -f "https://github.com/argoproj/argo-workflows/releases/download/${ARGO_WORKFLOWS_VERSION}/quick-start-minimal.yaml"
    ```
 3. Configure port forwarding to access the UI:
