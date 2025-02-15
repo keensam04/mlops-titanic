@@ -23,6 +23,14 @@ else:
     with pkg_resources.path("model", "predict.py") as p:
         MODEL_FILES_LOCATION = p.parent / "model_files"
 
+# When deployed in docker, model files are mounted to opt/ml/model
+sm_path = Path("/var/beacon")
+if sm_path and sm_path.exists():
+    BEACON_LOCATION = sm_path
+else:
+    with pkg_resources.path("model", "predict.py") as p:
+        BEACON_LOCATION = p.parent.parent / "beacon"
+
 
 # If you have any output fields with PII, or that you prefer not to log, list them here as set of strings:
 FIELDS_TO_NOT_LOG = None
