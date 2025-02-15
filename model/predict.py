@@ -8,6 +8,7 @@ from functools import lru_cache
 import mlflow
 
 from model.config import MODEL_FILES_LOCATION
+from model.utils.beaconing import beacon
 from model.utils.logging import build_response, get_logger, log_response
 from model.utils.validation import validate_input
 
@@ -43,6 +44,7 @@ def load_model():
     return model, model_config["features"]
 
 
+@beacon
 def predict(json_payload):
     start_time = time.time()
     output_dict = dict(data={}, error=None)
