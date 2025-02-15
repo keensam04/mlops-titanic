@@ -68,14 +68,20 @@ Install argo workflow using the below instructions. Refer to the [installation s
    ```
 2. Navigate to [argo workflows](https://localhost:2746) in browser and submit the pipeline
    
-   `TODO: detailed steps to be added`
+   - Click on `+ SUBMIT NEW WORKFLOW` button in the top left corner of the screen
+   - Select the `Edit using full workflow options`
+   - Upload the pipeline manifest file using the `UPLOAD FILE` button
+     
+     - Navigate to the project folder and select `pipeline.yaml` file
+   - Click on `+ CREATE` button 
+   
 3. Run the inference server
    ```bash
    docker run -p 8090:8090 mlops-titanic/inference:1.0 --bucket mybucket --model-path model.json
    ```
 4. Test the inference endpoint
    ```bash
-   curl --location 'http://localhost:8090/invocations' \
+   curl --location 'http://localhost:8090/predict' \
    --header 'Content-Type: application/json' \
    --data '{
      "PassengerId": 892,

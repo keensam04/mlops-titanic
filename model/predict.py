@@ -44,14 +44,6 @@ def load_model():
 
 
 def predict(json_payload):
-    """
-    Arguments:
-        json_payload (dict[str, object]): This is the payload that is sent to the
-            SageMaker server using a POST request to the `invocations` route.
-    Returns:
-        JSON string.
-    """
-
     start_time = time.time()
     output_dict = dict(data={}, error=None)
 

@@ -8,11 +8,11 @@ ENV PYTHONPATH .
 ENV LOCALSTACK_URI $LOCALSTACK_URI
 ENV MLFLOW_TRACKING_URI $MLFLOW_TRACKING_URI
 
-COPY pipelines/components/train/train.py .
-COPY pipelines/components/train/ensemble_model.py .
-COPY pipelines/components/train/plot_funcs.py .
-COPY pipelines/components/train/utils.py .
-COPY pipelines/components/train/requirements.txt .
+COPY pipeline/components/train/train.py .
+COPY pipeline/components/train/ensemble_model.py .
+COPY pipeline/components/train/plot_funcs.py .
+COPY pipeline/components/train/utils.py .
+COPY pipeline/components/train/requirements.txt .
 COPY .aws /home/non-root/.aws
 
 RUN apt update && apt install libtirpc-dev libgnutls28-dev libgomp1 -y
