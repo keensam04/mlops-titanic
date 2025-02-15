@@ -17,11 +17,11 @@ def status_op(name: str, status: str):
 
 
 # Custom components
-seed_op = kfp.components.load_component("pipelines/components/seed/seed.yaml")
+seed_op = kfp.components.load_component("pipeline/components/seed/seed.yaml")
 preprocessing_op = kfp.components.load_component(
-    "pipelines/components/pre-processing/pre-processing.yaml"
+    "pipeline/components/pre-processing/pre-processing.yaml"
 )
-training_op = kfp.components.load_component("pipelines/components/train/train.yaml")
+training_op = kfp.components.load_component("pipeline/components/train/train.yaml")
 
 
 # Pipeline

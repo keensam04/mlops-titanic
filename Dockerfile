@@ -12,7 +12,7 @@ ENV MLFLOW_TRACKING_URI $MLFLOW_TRACKING_URI
 COPY model ./model
 COPY requirements.txt .
 COPY server.py .
-COPY pipelines/components/train/ensemble_model.py .
+COPY pipeline/components/train/ensemble_model.py .
 COPY .aws /home/non-root/.aws
 
 RUN apt update && apt install libtirpc-dev libgnutls28-dev libgomp1 -y

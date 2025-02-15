@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   generateName: pipeline-
-  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.22, pipelines.kubeflow.org/pipeline_compilation_time: '2025-02-15T12:28:10.713605',
+  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.22, pipelines.kubeflow.org/pipeline_compilation_time: '2025-02-15T13:07:01.845913',
     pipelines.kubeflow.org/pipeline_spec: '{"inputs": [{"default": "mybucket", "name":
       "bucket", "optional": true, "type": "String"}, {"default": "param.json", "name":
       "param_path", "optional": true, "type": "String"}, {"default": "train.csv",
@@ -106,7 +106,7 @@ spec:
           processed training data.", "name": "processed_train_path", "type": "String"}],
           "name": "PreProcessing"}', pipelines.kubeflow.org/component_ref: '{"digest":
           "3127b0b6723a3a73c6dee68c1b4f901471a4a6e7782a45b9ee48f37dd79971c7", "url":
-          "pipelines/components/pre-processing/pre-processing.yaml"}', pipelines.kubeflow.org/arguments.parameters: '{"bucket":
+          "pipeline/components/pre-processing/pre-processing.yaml"}', pipelines.kubeflow.org/arguments.parameters: '{"bucket":
           "{{inputs.parameters.bucket}}", "processed_train_path": "{{inputs.parameters.processed_train_path}}",
           "test_path": "{{inputs.parameters.test_path}}", "train_path": "{{inputs.parameters.train_path}}"}'}
   - name: seed
@@ -138,7 +138,7 @@ spec:
           dump training data.", "name": "train_path", "type": "String"}, {"description":
           "The s3 path to dump test data.", "name": "test_path", "type": "String"}],
           "name": "Seed"}', pipelines.kubeflow.org/component_ref: '{"digest": "fecd0ed06be232ff186e016b56369ceedc6c2580fcec93cffb2d5bc4d03f8c4a",
-          "url": "pipelines/components/seed/seed.yaml"}', pipelines.kubeflow.org/arguments.parameters: '{"bucket":
+          "url": "pipeline/components/seed/seed.yaml"}', pipelines.kubeflow.org/arguments.parameters: '{"bucket":
           "{{inputs.parameters.bucket}}", "param_path": "{{inputs.parameters.param_path}}",
           "test_path": "{{inputs.parameters.test_path}}", "train_path": "{{inputs.parameters.train_path}}"}'}
   - name: status-op
@@ -251,7 +251,7 @@ spec:
           {"description": "The s3 path to dump the training output.", "name": "model_path",
           "type": "String"}], "name": "Train"}', pipelines.kubeflow.org/component_ref: '{"digest":
           "9b10ee347d50c20b0b150add854ecad0c538c844bf776e1de3f40720fb5f82ab", "url":
-          "pipelines/components/train/train.yaml"}', pipelines.kubeflow.org/arguments.parameters: '{"bucket":
+          "pipeline/components/train/train.yaml"}', pipelines.kubeflow.org/arguments.parameters: '{"bucket":
           "{{inputs.parameters.bucket}}", "model_path": "{{inputs.parameters.model_path}}",
           "param_path": "{{inputs.parameters.param_path}}", "processed_train_path":
           "{{inputs.parameters.processed_train_path}}"}'}

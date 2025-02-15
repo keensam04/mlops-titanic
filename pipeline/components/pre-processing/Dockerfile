@@ -6,8 +6,8 @@ WORKDIR /opt/component
 ENV PYTHONPATH .
 ENV LOCALSTACK_URI $LOCALSTACK_URI
 
-COPY pipelines/components/pre-processing/pre_processing.py .
-COPY pipelines/components/pre-processing/requirements.txt .
+COPY pipeline/components/pre-processing/pre_processing.py .
+COPY pipeline/components/pre-processing/requirements.txt .
 COPY .aws /home/non-root/.aws
 
 RUN apt update

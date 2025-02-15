@@ -8,8 +8,8 @@ ENV PYTHONPATH .
 ENV AWS_REGION $AWS_REGION
 ENV LOCALSTACK_URI $LOCALSTACK_URI
 
-COPY pipelines/components/seed/seed.py .
-COPY pipelines/components/seed/requirements.txt .
+COPY pipeline/components/seed/seed.py .
+COPY pipeline/components/seed/requirements.txt .
 COPY data ./data
 COPY .aws /home/non-root/.aws
 
