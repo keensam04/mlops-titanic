@@ -12,20 +12,21 @@ Refer to the below screenshot for first-time configuration.
 - Enable Kubernetes (use the latest stable version).
 - Use the `dockerd (moby)` container engine which comes with docker cli.
 - Opt for automatic path configuration
-<img width="408" alt="rancher_local_conf" src="https://github.com/user-attachments/assets/8f8fa3dc-be22-421d-92e1-31a2eef0d7c1" />
+  
+  <img width="408" alt="rancher_local_conf" src="https://github.com/user-attachments/assets/8f8fa3dc-be22-421d-92e1-31a2eef0d7c1" />
 
 #### Validation
 Validate that the installation is successful by testing the following commands
-```
+```bash
 docker --version
 ```
-```
+```bash
 docker-compose --version
 ```
-```
+```bash
 kubectl version
 ```
-```
+```bash
 dsl-compile --help
 ```
 
@@ -37,25 +38,54 @@ Argo workflows is the container-native workflow engine for orchestrating paralle
 Install argo workflow using the below instructions. Refer to the [installation section on quick-start page](https://argo-workflows.readthedocs.io/en/latest/quick-start/#install-argo-workflows) for more details.
 
 1. Use the following argo workflow version to spin up the workflow cluster
-   ```
+   ```bash
    ARGO_WORKFLOWS_VERSION="v3.6.2"
    ```
 2. Apply the quick start manifest
-   ```
+   ```bash
    kubectl create namespace argo
    ```
-   ```
+   ```bash
    kubectl -n argo create sa pipeline-runner
    ```
-   ```
+   ```bash
    kubectl create clusterrolebinding pipelinerunnerbinding --clusterrole=cluster-admin --serviceaccount=argo:pipeline-runner
    ```
-   ```
+   ```bash
    kubectl apply -n argo -f "https://github.com/argoproj/argo-workflows/releases/download/${ARGO_WORKFLOWS_VERSION}/quick-start-minimal.yaml"
    ```
 3. Configure port forwarding to access the UI:
-   ```
+   ```bash
    kubectl -n argo port-forward service/argo-server 2746:2746
    ```
 4. Open the link in browser (Note that it's `https` not *~http~*)
    - https://localhost:2746.
+
+## Run
+1. Run the build script
+   ```bash
+   ./build.sh
+   ```
+2. Navigate to [argo workflows](https://localhost:2746) in browser and submit the pipeline
+   
+   `TODO: detailed steps to be added`
+3. Run the inference server
+   ```bash
+   docker run -p 8090:8090 mlops-titanic/inference:1.0 --bucket mybucket --model-path model.json
+   ```
+4. Test the inference endpoint
+   ```bash
+   curl --location 'http://localhost:8090/invocations' \
+   --header 'Content-Type: application/json' \
+   --data '{
+     "PassengerId": 892,
+     "Name": "Kelly, Mr. James",
+     "Pclass": 3,
+     "Age": 34.5,
+     "SibSp": 0,
+     "Parch": 0,
+     "Fare": 7.8292,
+     "Sex": "male",
+     "Embarked": "Q"
+   }'
+   ```

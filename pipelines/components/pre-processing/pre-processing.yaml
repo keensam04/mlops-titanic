@@ -1,0 +1,26 @@
+name: PreProcessing
+description: |
+  Prepares data for training.
+inputs:
+  - name: bucket
+    type: String
+    description: The S3 bucket to store results.
+  - name: train_path
+    type: String
+    description: The s3 path of the training data.
+  - name: test_path
+    type: String
+    description: The s3 path of the test data.
+  - name: processed_train_path
+    type: String
+    description: The s3 path to dump the processed training data.
+implementation:
+  container:
+    image: mlops-titanic/pipeline/components/preprocessing:1.0
+    command: [
+      python, pre_processing.py,
+      --bucket, {inputValue: bucket},
+      --train-path, {inputValue: train_path},
+      --test-path, {inputValue: test_path},
+      --processed-train-path, {inputValue: processed_train_path}
+    ]

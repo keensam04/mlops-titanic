@@ -1,0 +1,26 @@
+name: Train
+description: |
+  Trains the model on processed data.
+inputs:
+  - name: bucket
+    type: String
+    description: The S3 bucket to store results.
+  - name: processed_train_path
+    type: String
+    description: The s3 path of processed training data.
+  - name: param_path
+    type: String
+    description: The s3 path of training param file.
+  - name: model_path
+    type: String
+    description: The s3 path to dump the training output.
+implementation:
+  container:
+    image: mlops-titanic/pipeline/components/train:1.0
+    command: [
+      python, train.py,
+      --bucket, {inputValue: bucket},
+      --processed-train-path, {inputValue: processed_train_path},
+      --param-path, {inputValue: param_path},
+      --model-path, {inputValue: model_path}
+    ]

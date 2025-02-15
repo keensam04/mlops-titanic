@@ -1,0 +1,26 @@
+name: Seed
+description: |
+  Seeds an S3 bucket with data and config.
+inputs:
+- name: bucket
+  type: String
+  description: The S3 bucket to store results.
+- name: param_path
+  type: String
+  description: The s3 path to dump training param file.
+- name: train_path
+  type: String
+  description: The s3 path to dump training data.
+- name: test_path
+  type: String
+  description: The s3 path to dump test data.
+implementation:
+  container:
+    image: mlops-titanic/pipeline/components/seed:1.0
+    command: [
+        python, seed.py,
+        --bucket, {inputValue: bucket},
+        --param-path, {inputValue: param_path},
+        --train-path, {inputValue: train_path},
+        --test-path, {inputValue: test_path},
+    ]
