@@ -11,9 +11,17 @@ In order to ensure a fresh environment, create a new virtual environment using t
 ```bash
 python3.10 -m venv .venv
 ```
+Let's activate the environment that we just created. 
+
+For Mac, Linux,
 ```bash
 source .venv/bin/activate
 ```
+For Windows,
+```bash
+.\.venv\Scripts\activate
+```
+Let's install the required packages through the following command
 ```bash
 pip install -r pipeline/requirements.txt
 ```
@@ -54,8 +62,14 @@ Argo workflows is the container-native workflow engine for orchestrating paralle
 Install argo workflow using the below instructions. Refer to the [installation section on quick-start page](https://argo-workflows.readthedocs.io/en/latest/quick-start/#install-argo-workflows) for more details.
 
 1. Use the following argo workflow version to spin up the workflow cluster
+
+   For Mac or Linux,
    ```bash
    ARGO_WORKFLOWS_VERSION="v3.6.2"
+   ```
+   For Windows,
+    ```bash
+   $ARGO_WORKFLOWS_VERSION="v3.6.2"
    ```
 2. Apply the quick start manifest
    ```bash
@@ -79,8 +93,14 @@ Install argo workflow using the below instructions. Refer to the [installation s
 
 ## Run
 1. Run the build script
+   
+   For Mac or linux,
    ```bash
    ./build.sh
+   ```
+   For Windows,
+   ```bash
+   ./build.bat
    ```
 2. Navigate to [argo workflows](https://localhost:2746) in browser and submit the pipeline
    
