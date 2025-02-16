@@ -10,14 +10,20 @@ The code in the repo has been written in python and tested with v3.10. Follow th
 [Kubeflow Pipelines](https://www.kubeflow.org/docs/components/pipelines/legacy-v1/introduction/) is a platform for building and deploying portable, scalable machine learning workflows based on Docker containers within the Kubeflow project.
 In order to ensure a fresh environment, create a new virtual environment using the following command. Run the command in the project root
 ```bash
-
-# Creates a fresh virtual environment with the name `.venv` in the current directory
 python3.10 -m venv .venv
+```
+Let's activate the environment that we just created. 
 
-# Once the virtual environment has been created, we can enable the same using the source command below
+For Mac or Linux,
+```bash
 source .venv/bin/activate
-
-# Install the dependencies in the virtual env created
+```
+For Windows,
+```bash
+.\.venv\Scripts\activate
+```
+Let's install the required packages through the following command
+```bash
 pip install -r pipeline/requirements.txt
 ```
 
@@ -42,7 +48,11 @@ Refer to the below screenshot for first-time configuration.
 Validate that the installation is successful by testing the following commands
 ```bash
 docker --version
+```
+```bash
 docker-compose --version
+```
+```bash
 kubectl version
 ```
 
@@ -54,14 +64,26 @@ Argo workflows is the container-native workflow engine for orchestrating paralle
 Install argo workflow using the below instructions. Refer to the [installation section on quick-start page](https://argo-workflows.readthedocs.io/en/latest/quick-start/#install-argo-workflows) for more details.
 
 1. Use the following argo workflow version to spin up the workflow cluster
+
+   For Mac or Linux,
    ```bash
    ARGO_WORKFLOWS_VERSION="v3.6.2"
+   ```
+   For Windows,
+    ```bash
+   $ARGO_WORKFLOWS_VERSION="v3.6.2"
    ```
 2. Apply the quick start manifest
    ```bash
    kubectl create namespace argo
+   ```
+   ```bash
    kubectl -n argo create sa pipeline-runner
+   ```
+   ```bash
    kubectl create clusterrolebinding pipelinerunnerbinding --clusterrole=cluster-admin --serviceaccount=argo:pipeline-runner
+   ```
+   ```bash
    kubectl apply -n argo -f "https://github.com/argoproj/argo-workflows/releases/download/${ARGO_WORKFLOWS_VERSION}/quick-start-minimal.yaml"
    ```
 3. Configure port forwarding to access the UI:
@@ -81,9 +103,18 @@ The below assumes that we're in the base directory of the repo after git cloning
   - What is MLFlow?
     - MLFlow tracking server is a stand-alone HTTP server that serves multiple REST API endpoints for tracking runs/experiments.
 
-- In a separate terminal session, we next run the build script `sh build.sh`
+- In a separate terminal session, we next run the build script
    - This will build the docker images for each component in the sample pipeline
    - It also creates the pipeline.yaml file
+  
+  For Mac or linux,
+  ```bash
+  sh build.sh
+  ```
+  For Windows,
+  ```bash
+  ./build.bat
+  ```
 
 - Navigate to [Argo Workflows](https://localhost:2746) in browser and submit the pipeline
    - Click on `SUBMIT NEW WORKFLOW` button in the top left corner of the screen
