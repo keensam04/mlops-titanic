@@ -14,12 +14,12 @@ python3.10 -m venv .venv
 ```
 Let's activate the environment that we just created. 
 
-For Mac or Linux,
+**Mac/Linux**
 ```bash
 source .venv/bin/activate
 ```
-For Windows,
-```bash
+**Windows**
+```bat
 .\.venv\Scripts\activate
 ```
 Let's install the required packages through the following command
@@ -63,17 +63,7 @@ Argo workflows is the container-native workflow engine for orchestrating paralle
 
 Install argo workflow using the below instructions. Refer to the [installation section on quick-start page](https://argo-workflows.readthedocs.io/en/latest/quick-start/#install-argo-workflows) for more details.
 
-1. Use the following argo workflow version to spin up the workflow cluster
-
-   For Mac or Linux,
-   ```bash
-   ARGO_WORKFLOWS_VERSION="v3.6.2"
-   ```
-   For Windows,
-    ```bash
-   $ARGO_WORKFLOWS_VERSION="v3.6.2"
-   ```
-2. Apply the quick start manifest
+1. Apply the quick start manifest
    ```bash
    kubectl create namespace argo
    ```
@@ -84,35 +74,39 @@ Install argo workflow using the below instructions. Refer to the [installation s
    kubectl create clusterrolebinding pipelinerunnerbinding --clusterrole=cluster-admin --serviceaccount=argo:pipeline-runner
    ```
    ```bash
-   kubectl apply -n argo -f "https://github.com/argoproj/argo-workflows/releases/download/${ARGO_WORKFLOWS_VERSION}/quick-start-minimal.yaml"
+   kubectl apply -n argo -f "https://github.com/argoproj/argo-workflows/releases/download/v3.6.2/quick-start-minimal.yaml"
    ```
-3. Configure port forwarding to access the UI:
+2. Configure port forwarding to access the UI:
    ```bash
    kubectl -n argo port-forward service/argo-server 2746:2746
    ```
-4. Open the link in browser (Note that it's `https` not *~http~*)
+> [!NOTE]  
+> It takes sometime for the `service/argo-server` to get started. The above port-forwarding command will fail until the server is up and running. Wait and retry in sometime in case of pod state shows as `PENDING`
+3. Open the link in browser (Note that it's `https` not *~http~*)
    - https://localhost:2746.
 
 ## How to run this repo?
 
 The below assumes that we're in the base directory of the repo after git cloning
-- `docker-compose up -d`
-  - This command will use `docker-compose.yml` to bring up [localstack](https://github.com/localstack/localstack) and [MLFlow server](https://mlflow.org/docs/latest/tracking/server.html) 
+- Bring up the [localstack](https://github.com/localstack/localstack) and [MLFlow](https://mlflow.org/docs/latest/tracking/server.html) servers. This command uses `docker-compose.yml`
+  ```bash
+  docker-compose up -d
+  ```
   - What is LocalStack? 
     - With LocalStack, you can run your AWS applications or S3 (in our case) entirely on your local machine without connecting to a remote cloud provider!
   - What is MLFlow?
     - MLFlow tracking server is a stand-alone HTTP server that serves multiple REST API endpoints for tracking runs/experiments.
 
 - In a separate terminal session, we next run the build script
-   - This will build the docker images for each component in the sample pipeline
-   - It also creates the pipeline.yaml file
+  - This will build the docker images for each component in the sample pipeline
+  - It also creates the pipeline.yaml file
   
-  For Mac or linux,
+  **Mac/Linux**
   ```bash
   sh build.sh
   ```
-  For Windows,
-  ```bash
+  **Windows**
+  ```bat
   ./build.bat
   ```
 
@@ -125,23 +119,23 @@ The below assumes that we're in the base directory of the repo after git cloning
    - Wait for teh workflow to complete its execution
 
 - Run the inference server
-  - ```bash
-     docker run -p 8090:8090 mlops-titanic/inference:1.0 --bucket mybucket --model-path model.json
-     ```
+  ```bash
+  docker run -p 8090:8090 mlops-titanic/inference:1.0 --bucket mybucket --model-path model.json
+  ```
 
 - Test the inference endpoint
-   ```bash
-   curl --location 'http://localhost:8090/predict' \
-   --header 'Content-Type: application/json' \
-   --data '{
-     "PassengerId": 892,
-     "Name": "Kelly, Mr. James",
-     "Pclass": 3,
-     "Age": 34.5,
-     "SibSp": 0,
-     "Parch": 0,
-     "Fare": 7.8292,
-     "Sex": "male",
-     "Embarked": "Q"
-   }'
-   ```
+  ```bash
+  curl --location 'http://localhost:8090/predict' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "PassengerId": 892,
+    "Name": "Kelly, Mr. James",
+    "Pclass": 3,
+    "Age": 34.5,
+    "SibSp": 0,
+    "Parch": 0,
+    "Fare": 7.8292,
+    "Sex": "male",
+    "Embarked": "Q"
+  }'
+  ```
