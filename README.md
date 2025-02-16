@@ -85,17 +85,15 @@ Install argo workflow using the below instructions. Refer to the [installation s
 3. Open the link in browser (Note that it's `https` not *~http~*)
    - https://localhost:2746.
 
-## How to run this repo?
-
-The below assumes that we're in the base directory of the repo after git cloning
-- Bring up the [localstack](https://github.com/localstack/localstack) and [MLFlow](https://mlflow.org/docs/latest/tracking/server.html) servers. This command uses `docker-compose.yml`
+## How to run this project?
+> [!IMPORTANT]  
+> The below assumes that we're in the base directory of the repo after git cloning
+- Bring up the [localstack](https://github.com/localstack/localstack) and [MLflow](#mlflow) servers. This command uses `docker-compose.yml`
   ```bash
   docker-compose up -d
   ```
-  - What is LocalStack? 
-    - With LocalStack, you can run your AWS applications or S3 (in our case) entirely on your local machine without connecting to a remote cloud provider!
-  - What is MLFlow?
-    - MLFlow tracking server is a stand-alone HTTP server that serves multiple REST API endpoints for tracking runs/experiments.
+> [!NOTE]
+> With LocalStack, you can run your AWS services (Amazon S3 in our case) entirely on your local machine without connecting to a remote cloud provider!
 
 - In a separate terminal session, we next run the build script
   - This will build the docker images for each component in the sample pipeline
@@ -159,6 +157,9 @@ So, think of Docker as a way to create neat, organized, and self-contained "boxe
 
 Learn more from [here](https://docs.docker.com/get-started/docker-overview/)
 
+> [!NOTE]
+> [Docker Compose](https://docs.docker.com/compose/) is a tool that helps you easily manage and run multi-container Docker applications by defining all your containers and their settings in a single docker-compose.yml file.
+
 ### Kubernetes
 Docker as explained above is like putting your applications into neat, self-contained "containers" so they can run consistently anywhere. Now, think of Kubernetes as the smart system that manages all those containers when you have lots of them running on many different computers.
 
@@ -210,35 +211,21 @@ Argo Workflows is a powerful tool for automating and managing complex workflows 
 
 Key Features of Argo Workflows
 1. Workflow Automation:
-
-   **What:** Automates the execution of a series of tasks in a specific order.
-
-   **How:** You define these tasks and their order in a file (usually a YAML file). Each task often runs in its own Docker container.
-
-   **Why:** To ensure tasks run correctly every time without manual intervention.
-
-3. Directed Acyclic Graph (DAG):
-
-   **What:** Specifies the order of tasks and their dependencies.
-
-   **How:** Ensures tasks that depend on each other are executed in the right sequence.
-
-   **Why:** To manage complex workflows where some tasks can run simultaneously, while others need to wait for previous tasks to complete.
-
-5. Parallel Task Execution:
-
-   **What:** Allows multiple tasks to run at the same time if they don’t depend on each other.
-
-   **How:** Optimizes efficiency and speeds up workflow execution.
-
-   **Why:** To save time and resources by making sure all tasks that can run at the same time do so.
-
-7. Error Handling and Retry:
-   **What:** Automatically retries tasks that fail and handles errors.
-
-   **How:** Makes sure workflows are resilient and less likely to break due to minor issues.
-
-   **Why:** To provide stability and robustness to your workflows.
+   - **What:** Automates the execution of a series of tasks in a specific order.
+   - **How:** You define these tasks and their order in a file (usually a YAML file). Each task often runs in its own Docker container.
+   - **Why:** To ensure tasks run correctly every time without manual intervention.
+2. Directed Acyclic Graph (DAG):
+   - **What:** Specifies the order of tasks and their dependencies.
+   - **How:** Ensures tasks that depend on each other are executed in the right sequence.
+   - **Why:** To manage complex workflows where some tasks can run simultaneously, while others need to wait for previous tasks to complete.
+3. Parallel Task Execution:
+   - **What:** Allows multiple tasks to run at the same time if they don’t depend on each other.
+   - **How:** Optimizes efficiency and speeds up workflow execution.
+   - **Why:** To save time and resources by making sure all tasks that can run at the same time do so.
+4. Error Handling and Retry:
+   - **What:** Automatically retries tasks that fail and handles errors.
+   - **How:** Makes sure workflows are resilient and less likely to break due to minor issues.
+   - **Why:** To provide stability and robustness to your workflows.
 
 #### Similarities Between Kubeflow and Argo Workflows
 - **Kubernetes Integration:** Both use Kubernetes to orchestrate and manage containerized tasks.
@@ -253,3 +240,64 @@ Key Features of Argo Workflows
 | Specialized Components | Offers ML-specific tools and integrations, such as TensorFlow training operators and serving components. | Provides a generic framework for defining and running any kind of workflow without built-in ML-specific features. |
 | Use Cases | Best for end-to-end machine learning projects where you need to preprocess data, train models, evaluate them, and deploy for predictions. | Best for diverse applications, such as automating repetitive tasks, running data processing jobs, managing CI/CD pipelines, and more. |
 | User Focus | Primarily targets data scientists and ML engineers who need to manage all the steps in an ML pipeline. | Targets DevOps engineers, data engineers, and developers who need to automate a broad set of tasks. |
+
+### S3
+We can understand Amazon S3 by thinking of it as an online, cloud-based extension of the file system on an operating system (OS). Here's how it compares and works:
+
+Comparing File Systems
+|           | OS File System | Amazon S3 |
+| Folders and Files | You have directories (or folders) and files. Directories contain files and can also contain other directories. | Instead of directories and files, you have buckets and objects. A bucket is like a top-level directory, and objects are like files stored inside the bucket. Unlike traditional file systems, buckets do not nest, but you can simulate directories within a bucket using prefixes. |
+| Accessing Files | Access files through the file explorer or terminal, using paths like C:/Documents/Project/file.txt. | Access objects using URLs, like https://s3.amazonaws.com/my-bucket/my-folder/my-file.txt, or through the AWS Management Console, command line, or SDKs. |
+
+**Key Concepts in Amazon S3**
+1. Buckets:
+   - **What:** A bucket is the container where you store your data (objects).
+   - **Similar To:** Think of it as a top-level folder or root directory in an OS file system.
+   - **Unique Aspect:** Each bucket must have a unique name across the entire S3 system.
+2. Objects:
+   - **What:** Objects are the data files you store in a bucket. Each object consists of the data itself and metadata (information about the data).
+   - **Similar To:** The files in your OS file system.
+   - **Unique Aspect:** Each object is identified by a unique key (which acts like a filename) within the bucket.
+3. Keys and Prefixes:
+   - **What:** The key is the unique identifier for an object within a bucket. Prefixes are used to simulate folders.
+   - **Similar To:** The file path in your OS file system.
+   - **Example:** If an object key is `projects/science/experiment.txt`, `projects` and `science` are prefixes, making it seem as if the object is in a folder structure.
+4. Storage Classes:
+   - **What:** Different storage classes offer varying costs, availability, and durability.
+   - **Example Classes:** Standard, Infrequent Access, Glacier (for long-term archival).
+   - **Why:** To optimize cost based on how frequently you need to access the data.
+
+**Operations in S3**
+|                           | OS File System | Amazon S3 |
+|---------------------------|----------------|-----------|
+| Creating a Bucket         | Create a new directory. | You create a new bucket using the AWS Management Console, AWS CLI, or an SDK. |
+| Uploading an Object       | Save a file into a directory. | You upload an object to a bucket, specifying the key (essentially the path and name). |
+| Setting Permissions       | Set read/write permissions for files and directories. | Set permissions for who can view or modify objects. You can make objects public or restrict access using AWS Identity and Access Management (IAM) policies. |
+| Accessing and Downloading | Open a file in an application or copy it to another location. | Access objects using URLs, or download them using the console, CLI, or programmatically. |
+> [!NOTE]
+> [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html) is the AWS SDK for Python to create, configure, and manage AWS services, such as Amazon S3.
+
+### MLflow
+Imagine you're working on a big science project with lots of experiments. You have to track each experiment, note down what changes you made, and see how those changes affected your results. MLflow is like a super-organized notebook and assistant specifically for machine learning projects.
+
+Key Features of MLflow
+1. Experiment Tracking
+   - **What:** Keeps a record of all your experiments, including the data you used, the model settings, and the results.
+   - **Why:** Helps you understand what changes led to better results, so you can easily replicate successful experiments.
+2. Models Registry
+   - **What:** A place to store and manage different versions of your machine learning models.
+   - **Why:** Allows you to keep track of various versions and easily switch between them, ensuring you always know which model is the best.
+3. Project Management
+   - **What:** Lets you organize your code and dependencies into a standard format.
+   - **Why:** Makes it easier to share your work with others and ensures your project runs smoothly on different computers.
+4. Deployment
+   - **What:** Helps you deploy your trained models to production environments so they can be used for making predictions.
+   - **Why:** Simplifies the process of putting your models into action, making them available for real-world use.
+
+Why Use MLflow?
+1. **Organization:** Keeps all your experiments, models, and code well-organized.
+2. **Reproducibility:** Makes it easy to replicate and verify results.
+3. **Collaboration:** Simplifies sharing your work with others.
+4. **Deployment:** Eases the process of turning your models into useful applications.
+
+MLflow is like a powerful assistant for your machine learning projects, helping you track experiments, manage models, organize your project, and deploy your work, all in one place. It makes working on and sharing your machine learning experiments much easier and more effective. Learn more [here](https://mlflow.org/docs/latest/index.html)
