@@ -1,12 +1,13 @@
 # mlops-titanic
-A demo of basic ML Ops using titanic dataset
+A demo of basic ML Ops using Titanic dataset
 
 ## Setup
+
 ### Python
 The code in the repo has been written in python and tested with v3.10. Follow the instructions [here](https://docs.python.org/3.10/using/index.html) to setup python in the local machine. If you already have another version of python installed, it is recommended to use [pyenv](https://github.com/pyenv/pyenv?tab=readme-ov-file#usage) to manage different python versions.
 
 ### kfp sdk
-Kubeflow Pipelines is a platform for building and deploying portable, scalable machine learning workflows based on Docker containers within the Kubeflow project.
+[Kubeflow Pipelines](https://www.kubeflow.org/docs/components/pipelines/legacy-v1/introduction/) is a platform for building and deploying portable, scalable machine learning workflows based on Docker containers within the Kubeflow project.
 In order to ensure a fresh environment, create a new virtual environment using the following command. Run the command in the project root
 ```bash
 python3.10 -m venv .venv
@@ -25,7 +26,8 @@ Let's install the required packages through the following command
 ```bash
 pip install -r pipeline/requirements.txt
 ```
-This should enable the `dsl-compile` command. Run the following command to validate
+
+The above should enable the `dsl-compile` command. Run the following command to validate
 ```bash
 dsl-compile --help
 ```
@@ -55,7 +57,7 @@ kubectl version
 ```
 
 ### Argo Workflows
-Argo is an open-source project created by Intuit. It is a collection of open source tools for Kubernetes to run workflows, manage clusters, and do GitOps right. Learn more [here](https://argoproj.github.io/)
+Argo is an open-source project created by **Intuit**. It is a collection of open source tools for Kubernetes to run workflows, manage clusters, and do GitOps right. Learn more [here](https://argoproj.github.io/)
 
 Argo workflows is the container-native workflow engine for orchestrating parallel jobs on Kubernetes. Learn more [here](https://argo-workflows.readthedocs.io/en/latest/).
 
@@ -91,31 +93,43 @@ Install argo workflow using the below instructions. Refer to the [installation s
 4. Open the link in browser (Note that it's `https` not *~http~*)
    - https://localhost:2746.
 
-## Run
-1. Run the build script
-   
-   For Mac or linux,
-   ```bash
-   ./build.sh
-   ```
-   For Windows,
-   ```bash
-   ./build.bat
-   ```
-2. Navigate to [argo workflows](https://localhost:2746) in browser and submit the pipeline
-   
-   - Click on `+ SUBMIT NEW WORKFLOW` button in the top left corner of the screen
+## How to run this repo?
+
+The below assumes that we're in the base directory of the repo after git cloning
+- `docker-compose up -d`
+  - This command will use `docker-compose.yml` to bring up [localstack](https://github.com/localstack/localstack) and [MLFlow server](https://mlflow.org/docs/latest/tracking/server.html) 
+  - What is LocalStack? 
+    - With LocalStack, you can run your AWS applications or S3 (in our case) entirely on your local machine without connecting to a remote cloud provider!
+  - What is MLFlow?
+    - MLFlow tracking server is a stand-alone HTTP server that serves multiple REST API endpoints for tracking runs/experiments.
+
+- In a separate terminal session, we next run the build script
+   - This will build the docker images for each component in the sample pipeline
+   - It also creates the pipeline.yaml file
+  
+  For Mac or linux,
+  ```bash
+  sh build.sh
+  ```
+  For Windows,
+  ```bash
+  ./build.bat
+  ```
+
+- Navigate to [Argo Workflows](https://localhost:2746) in browser and submit the pipeline
+   - Click on `SUBMIT NEW WORKFLOW` button in the top left corner of the screen
    - Select the `Edit using full workflow options`
    - Upload the pipeline manifest file using the `UPLOAD FILE` button
-     
-     - Navigate to the project folder and select `pipeline.yaml` file
+     - Navigate to the project folder and select `pipeline.yaml` file generate in the prior step
    - Click on `+ CREATE` button 
-   
-3. Run the inference server
-   ```bash
-   docker run -p 8090:8090 mlops-titanic/inference:1.0 --bucket mybucket --model-path model.json
-   ```
-4. Test the inference endpoint
+   - Wait for teh workflow to complete its execution
+
+- Run the inference server
+  - ```bash
+     docker run -p 8090:8090 mlops-titanic/inference:1.0 --bucket mybucket --model-path model.json
+     ```
+
+- Test the inference endpoint
    ```bash
    curl --location 'http://localhost:8090/predict' \
    --header 'Content-Type: application/json' \

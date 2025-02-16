@@ -27,6 +27,8 @@ from sklearn.metrics import (
 from sklearn.model_selection import StratifiedKFold
 from utils import print_devider
 
+
+# Accept command line arguments
 parser = argparse.ArgumentParser()
 parser.add_argument("--bucket", help="s3 bucket to use")
 parser.add_argument("--processed-train-path", help="path of the training pickle file")
@@ -228,6 +230,7 @@ def train(df: pd.DataFrame, params: dict):
 
 
 def main():
+    # Entrypoint for the snippet
     args = vars(parser.parse_args())
     print("Training started!")
 
