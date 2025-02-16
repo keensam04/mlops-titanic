@@ -35,7 +35,7 @@ dsl-compile --help
 ### Rancher Desktop
 Rancher Desktop is an open-source application that provides all the essentials to work with containers and Kubernetes on the desktop. More details [here](https://rancherdesktop.io/). It is an alternative to Docker Desktop which is proprietary.
 
-Install the v1.16.0 of Rancher Desktop application using the appropriate OS specific installers from [here](https://github.com/rancher-sandbox/rancher-desktop/releases/tag/v1.16.0)
+Install the v1.16.0 of Rancher Desktop application using the appropriate OS specific installers. Check the requirement and installation steps for your OS [here](https://docs.rancherdesktop.io/1.16/getting-started/installation).
 
 Refer to the below screenshot for first-time configuration.
 - Enable Kubernetes (use the latest stable version).
