@@ -13,7 +13,7 @@ python3.10 -m venv .venv
 ```
 Let's activate the environment that we just created. 
 
-For Mac, Linux,
+For Mac or Linux,
 ```bash
 source .venv/bin/activate
 ```
