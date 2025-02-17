@@ -1,5 +1,6 @@
 FROM python:3.10-slim-bullseye
 
+# passed to the Docker build process using the --build-arg flag
 ARG AWS_REGION
 ARG LOCALSTACK_URI
 

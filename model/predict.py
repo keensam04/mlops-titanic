@@ -59,14 +59,13 @@ def predict(json_payload):
             output_dict.update({"error": input_validation_result.pop("error")})
         # this will only run if input is valid
         else:
-            input = input_validation_result.pop("input")
-            prediction = model.predict(input)
+            input_ = input_validation_result.pop("input")
+            prediction = model.predict(input_)
             output_dict["data"].update({"SurvivalChance": prediction[0][0]})
         output_dict["data"].update(input_validation_result)
 
     # If we get here, it means we hit an exception
     except Exception as e:
-        # NOTE: the error message will show UNENCRYPTED in Splunk, do not log any sensitive information
         log_response({"error": traceback.format_exc()})
         output_dict.update({"error": f"Error in predict: {repr(e)}. See logs."})
 
