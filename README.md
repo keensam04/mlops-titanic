@@ -118,6 +118,9 @@ Install argo workflow using the below instructions. Refer to the [installation s
 
 - Run the inference server
   ```bash
+  # create the beacon directory in the root folder to log the incoming requests and responses
+  mkdir beacon
+  # run the inference server
   docker run -v ./beacon:/var/beacon -p 8090:8090 mlops-titanic/inference:1.0 --bucket mybucket --model-path model.json
   ```
 

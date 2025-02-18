@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   generateName: pipeline-
-  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.22, pipelines.kubeflow.org/pipeline_compilation_time: '2025-02-15T13:07:01.845913',
+  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.22, pipelines.kubeflow.org/pipeline_compilation_time: '2025-02-17T23:21:05.119787',
     pipelines.kubeflow.org/pipeline_spec: '{"inputs": [{"default": "mybucket", "name":
       "bucket", "optional": true, "type": "String"}, {"default": "param.json", "name":
       "param_path", "optional": true, "type": "String"}, {"default": "train.csv",
@@ -153,10 +153,12 @@ spec:
         python3 -u "$program_path" "$@"
       - |
         def status_op(name, status):
+            """Dummy method to send pipeline status to the configured channel.
+            In this example, it's STDOUT. In practice, it is usually a notification to Slack or email etc"""
             print(f"workflow={name} status={status}")
 
         import argparse
-        _parser = argparse.ArgumentParser(prog='Status op', description='')
+        _parser = argparse.ArgumentParser(prog='Status op', description='Dummy method to send pipeline status to the configured channel.')
         _parser.add_argument("--name", dest="name", type=str, required=True, default=argparse.SUPPRESS)
         _parser.add_argument("--status", dest="status", type=str, required=True, default=argparse.SUPPRESS)
         _parsed_args = vars(_parser.parse_args())
@@ -168,19 +170,24 @@ spec:
         pipelines.kubeflow.org/kfp_sdk_version: 1.8.22
         pipelines.kubeflow.org/pipeline-sdk-type: kfp
         pipelines.kubeflow.org/enable_caching: "true"
-      annotations: {pipelines.kubeflow.org/component_spec: '{"implementation": {"container":
-          {"args": ["--name", {"inputValue": "name"}, "--status", {"inputValue": "status"}],
-          "command": ["sh", "-ec", "program_path=$(mktemp)\nprintf \"%s\" \"$0\" >
-          \"$program_path\"\npython3 -u \"$program_path\" \"$@\"\n", "def status_op(name,
-          status):\n    print(f\"workflow={name} status={status}\")\n\nimport argparse\n_parser
-          = argparse.ArgumentParser(prog=''Status op'', description='''')\n_parser.add_argument(\"--name\",
-          dest=\"name\", type=str, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"--status\",
-          dest=\"status\", type=str, required=True, default=argparse.SUPPRESS)\n_parsed_args
-          = vars(_parser.parse_args())\n\n_outputs = status_op(**_parsed_args)\n"],
-          "image": "python:3.10-slim-bullseye"}}, "inputs": [{"name": "name", "type":
-          "String"}, {"name": "status", "type": "String"}], "name": "Status op"}',
-        pipelines.kubeflow.org/component_ref: '{}', pipelines.kubeflow.org/arguments.parameters: '{"name":
-          "{{workflow.name}}", "status": "{{workflow.status}}"}'}
+      annotations: {pipelines.kubeflow.org/component_spec: '{"description": "Dummy
+          method to send pipeline status to the configured channel.", "implementation":
+          {"container": {"args": ["--name", {"inputValue": "name"}, "--status", {"inputValue":
+          "status"}], "command": ["sh", "-ec", "program_path=$(mktemp)\nprintf \"%s\"
+          \"$0\" > \"$program_path\"\npython3 -u \"$program_path\" \"$@\"\n", "def
+          status_op(name, status):\n    \"\"\"Dummy method to send pipeline status
+          to the configured channel.\n    In this example, it''s STDOUT. In practice,
+          it is usually a notification to Slack or email etc\"\"\"\n    print(f\"workflow={name}
+          status={status}\")\n\nimport argparse\n_parser = argparse.ArgumentParser(prog=''Status
+          op'', description=''Dummy method to send pipeline status to the configured
+          channel.'')\n_parser.add_argument(\"--name\", dest=\"name\", type=str, required=True,
+          default=argparse.SUPPRESS)\n_parser.add_argument(\"--status\", dest=\"status\",
+          type=str, required=True, default=argparse.SUPPRESS)\n_parsed_args = vars(_parser.parse_args())\n\n_outputs
+          = status_op(**_parsed_args)\n"], "image": "python:3.10-slim-bullseye"}},
+          "inputs": [{"name": "name", "type": "String"}, {"name": "status", "type":
+          "String"}], "name": "Status op"}', pipelines.kubeflow.org/component_ref: '{}',
+        pipelines.kubeflow.org/arguments.parameters: '{"name": "{{workflow.name}}",
+          "status": "{{workflow.status}}"}'}
   - name: status-op-2
     container:
       args: [--name, '{{workflow.name}}', --status, Started]
@@ -193,10 +200,12 @@ spec:
         python3 -u "$program_path" "$@"
       - |
         def status_op(name, status):
+            """Dummy method to send pipeline status to the configured channel.
+            In this example, it's STDOUT. In practice, it is usually a notification to Slack or email etc"""
             print(f"workflow={name} status={status}")
 
         import argparse
-        _parser = argparse.ArgumentParser(prog='Status op', description='')
+        _parser = argparse.ArgumentParser(prog='Status op', description='Dummy method to send pipeline status to the configured channel.')
         _parser.add_argument("--name", dest="name", type=str, required=True, default=argparse.SUPPRESS)
         _parser.add_argument("--status", dest="status", type=str, required=True, default=argparse.SUPPRESS)
         _parsed_args = vars(_parser.parse_args())
@@ -208,19 +217,24 @@ spec:
         pipelines.kubeflow.org/kfp_sdk_version: 1.8.22
         pipelines.kubeflow.org/pipeline-sdk-type: kfp
         pipelines.kubeflow.org/enable_caching: "true"
-      annotations: {pipelines.kubeflow.org/component_spec: '{"implementation": {"container":
-          {"args": ["--name", {"inputValue": "name"}, "--status", {"inputValue": "status"}],
-          "command": ["sh", "-ec", "program_path=$(mktemp)\nprintf \"%s\" \"$0\" >
-          \"$program_path\"\npython3 -u \"$program_path\" \"$@\"\n", "def status_op(name,
-          status):\n    print(f\"workflow={name} status={status}\")\n\nimport argparse\n_parser
-          = argparse.ArgumentParser(prog=''Status op'', description='''')\n_parser.add_argument(\"--name\",
-          dest=\"name\", type=str, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"--status\",
-          dest=\"status\", type=str, required=True, default=argparse.SUPPRESS)\n_parsed_args
-          = vars(_parser.parse_args())\n\n_outputs = status_op(**_parsed_args)\n"],
-          "image": "python:3.10-slim-bullseye"}}, "inputs": [{"name": "name", "type":
-          "String"}, {"name": "status", "type": "String"}], "name": "Status op"}',
-        pipelines.kubeflow.org/component_ref: '{}', pipelines.kubeflow.org/arguments.parameters: '{"name":
-          "{{workflow.name}}", "status": "Started"}'}
+      annotations: {pipelines.kubeflow.org/component_spec: '{"description": "Dummy
+          method to send pipeline status to the configured channel.", "implementation":
+          {"container": {"args": ["--name", {"inputValue": "name"}, "--status", {"inputValue":
+          "status"}], "command": ["sh", "-ec", "program_path=$(mktemp)\nprintf \"%s\"
+          \"$0\" > \"$program_path\"\npython3 -u \"$program_path\" \"$@\"\n", "def
+          status_op(name, status):\n    \"\"\"Dummy method to send pipeline status
+          to the configured channel.\n    In this example, it''s STDOUT. In practice,
+          it is usually a notification to Slack or email etc\"\"\"\n    print(f\"workflow={name}
+          status={status}\")\n\nimport argparse\n_parser = argparse.ArgumentParser(prog=''Status
+          op'', description=''Dummy method to send pipeline status to the configured
+          channel.'')\n_parser.add_argument(\"--name\", dest=\"name\", type=str, required=True,
+          default=argparse.SUPPRESS)\n_parser.add_argument(\"--status\", dest=\"status\",
+          type=str, required=True, default=argparse.SUPPRESS)\n_parsed_args = vars(_parser.parse_args())\n\n_outputs
+          = status_op(**_parsed_args)\n"], "image": "python:3.10-slim-bullseye"}},
+          "inputs": [{"name": "name", "type": "String"}, {"name": "status", "type":
+          "String"}], "name": "Status op"}', pipelines.kubeflow.org/component_ref: '{}',
+        pipelines.kubeflow.org/arguments.parameters: '{"name": "{{workflow.name}}",
+          "status": "Started"}'}
   - name: train
     container:
       args: []

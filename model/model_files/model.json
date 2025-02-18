@@ -1,1 +1,17 @@
-{"experiment": "724405556941641862", "run": "c79e53eb731d479ea7c52a2525e2195e", "features": {"Pclass": "int8", "Age": "float16", "SibSp": "int8", "Parch": "int8", "Fare": "float16", "Sex_female": "int8", "Sex_male": "int8", "Embarked_C": "int8", "Embarked_Q": "int8", "Embarked_S": "int8", "Embarked_Unknown": "int8"}}
+{
+    "experiment": "724405556941641862",
+    "run": "c79e53eb731d479ea7c52a2525e2195e",
+    "features": {
+        "Pclass": "int8",
+        "Age": "float16",
+        "SibSp": "int8",
+        "Parch": "int8",
+        "Fare": "float16",
+        "Sex_female": "int8",
+        "Sex_male": "int8",
+        "Embarked_C": "int8",
+        "Embarked_Q": "int8",
+        "Embarked_S": "int8",
+        "Embarked_Unknown": "int8"
+    }
+}

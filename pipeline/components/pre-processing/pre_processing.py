@@ -49,7 +49,7 @@ def describe(df):
             map(lambda x: str(x), top_vals[:5])
         )
         df_ret.loc[df_ret["feature"] == col, "top_value_ratio"] = (
-            val_counts.values[0] / nrows
+                val_counts.values[0] / nrows
         )
 
     df_ret["distinct"] = (df_ret["unique_count"] == nrows).astype(int)
@@ -59,7 +59,7 @@ def describe(df):
 
 def reduce_mem_usage(df, verbose=True):
     numerics = ["int16", "int32", "int64", "float16", "float32", "float64"]
-    start_mem = df.memory_usage().sum() / 1024**2
+    start_mem = df.memory_usage().sum() / 1024 ** 2
     for col in df.columns:
         col_type = df[col].dtypes
         if col_type in numerics:
@@ -76,19 +76,19 @@ def reduce_mem_usage(df, verbose=True):
                     df[col] = df[col].astype(np.int64)
             else:
                 if (
-                    c_min > np.finfo(np.float16).min
-                    and c_max < np.finfo(np.float16).max
+                        c_min > np.finfo(np.float16).min
+                        and c_max < np.finfo(np.float16).max
                 ):
                     df[col] = df[col].astype(np.float16)
                 elif (
-                    c_min > np.finfo(np.float32).min
-                    and c_max < np.finfo(np.float32).max
+                        c_min > np.finfo(np.float32).min
+                        and c_max < np.finfo(np.float32).max
                 ):
                     df[col] = df[col].astype(np.float32)
                 else:
                     df[col] = df[col].astype(np.float64)
 
-    end_mem = df.memory_usage().sum() / 1024**2
+    end_mem = df.memory_usage().sum() / 1024 ** 2
     if verbose:
         print(
             "Memory usage decreased to {:.2f} Mb ({:.1f}% reduction)".format(
@@ -98,6 +98,17 @@ def reduce_mem_usage(df, verbose=True):
 
 
 def pre_processing(train: pd.DataFrame, test: pd.DataFrame):
+    """
+    The pre_processing function performs the following steps:
+        Drops specified columns (Cabin, Name, PassengerId, Ticket) from the training and test datasets.
+        Fills missing values in the Embarked column with "Unknown".
+        Concatenates the training and test datasets for consistent processing.
+        Imputes missing values in the Fare and Age columns with the mean values from the concatenated dataset.
+        Encodes categorical columns using LabelEncoder and OneHotEncoder:
+        Fits the encoders on the concatenated dataset.
+        Transforms and encodes the training and test datasets.
+        Replaces the original categorical columns with the encoded columns.
+    """
     cols_to_drop = ["Cabin", "Name", "PassengerId", "Ticket"]
     train.drop(cols_to_drop, axis=1, inplace=True)
     test.drop(cols_to_drop, axis=1, inplace=True)
