@@ -10,7 +10,7 @@ The code in the repo has been written in python and tested with v3.10. Follow th
 [Kubeflow Pipelines](https://www.kubeflow.org/docs/components/pipelines/legacy-v1/introduction/) is a platform for building and deploying portable, scalable machine learning workflows based on Docker containers within the Kubeflow project.
 In order to ensure a fresh environment, create a new virtual environment using the following command. Run the command in the project root
 ```bash
-python3.10 -m venv .venv
+python -m venv .venv
 ```
 Let's activate the environment that we just created. 
 
@@ -26,6 +26,8 @@ Let's install the required packages through the following command
 ```bash
 pip install -r pipeline/requirements.txt
 ```
+> [!NOTE]
+> The above step assumes you have cloned the repo and are in the root directory (mlops-titanic)
 
 The above should enable the `dsl-compile` command. Run the following command to validate
 ```bash
